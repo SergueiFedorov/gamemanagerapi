@@ -5,3 +5,4 @@ import gamemanagerlib.storage.memory
 player_storage = gamemanagerlib.storage.memory.MemoryStorage()
 games_storage = gamemanagerlib.storage.memory.MemoryStorage()
 teams_storage = gamemanagerlib.storage.memory.MemoryStorage()
+scores_stroage = gamemanagerlib.storage.memory.MemoryStorage()

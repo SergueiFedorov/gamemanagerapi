@@ -1,7 +1,6 @@
 import cherrypy
 
 from gamemanagerlib.business import players
-from gamemanagerlib.business import matches
 from gamemanagerlib.business import teams
 
 from gamemanagerapi.endpoints import teams_storage, player_storage, cy_tools
@@ -11,7 +10,7 @@ from gamemanagerapi.endpoints import teams_storage, player_storage, cy_tools
 class Players(object):
 
     @cy_tools.uses_json
-    def POST(self, team_id, player_id):
+    def POST(self, team_id, player_id, *args, **kwargs):
 
         teams_bll = teams.Business(storage=teams_storage)
         player_bll = players.Business(storage=player_storage)
@@ -30,7 +29,7 @@ class Players(object):
 
 
 @cherrypy.expose
-@cherrypy.popargs('team_id')
+@cherrypy.popargs('id')
 class Root(object):
 
     def __init__(self):
@@ -49,7 +48,7 @@ class Root(object):
         }
 
     @cy_tools.uses_json
-    def POST(self, name):
+    def POST(self, name, **kwargs):
 
         team_bll = teams.Business(storage=teams_storage)
         result = team_bll.create_team(teams.Team(name=name))
@@ -57,9 +56,9 @@ class Root(object):
         return self.format_team(result)
 
     @cy_tools.uses_json
-    def GET(self, team_id):
+    def GET(self, id):
 
         team_bll = teams.Business(storage=teams_storage)
-        result = team_bll.get_team(id=int(team_id))
+        result = team_bll.get_team(id=int(id))
 
         return self.format_team(result)

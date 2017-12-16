@@ -2,7 +2,7 @@ import unittest
 import cherrypy
 import json
 
-from gamemanagerapi.endpoints import games, player, teams
+from gamemanagerapi.endpoints import games, player, teams, scores
 
 
 class Tests(unittest.TestCase):
@@ -48,7 +48,7 @@ class Tests(unittest.TestCase):
         team_controller = teams.Root()
         player_controller = player.Root()
 
-        saved_game = json.loads(games_controller.GET(game_id=game["id"]))
+        saved_game = json.loads(games_controller.GET(id=game["id"]))
 
         # Make sure game ids match
         self.assertEqual(saved_game["id"], game["id"])
@@ -66,20 +66,37 @@ class Tests(unittest.TestCase):
     def test_game_not_found(self):
 
         games_controller = games.Root()
-        result = games_controller.GET(game_id=1)
+        result = games_controller.GET(id=1)
 
         self.assertTrue(not json.loads(result))
 
     def test_team_not_found(self):
 
         team_controller = teams.Root()
-        result = team_controller.GET(team_id=1)
+        result = team_controller.GET(id=1)
 
         self.assertTrue(not json.loads(result))
 
-    def test_player_not_(self):
+    def test_player_not_found(self):
 
         player_contoller = player.Root()
-        result = player_contoller.GET(player_id=1)
+        result = player_contoller.GET(id=1)
 
         self.assertTrue(not json.loads(result))
+
+    def test_assign_score(self):
+
+        games_controller = games.Root()
+        teams_controller = teams.Root()
+        scores_controller = scores.Root()
+
+        game = json.loads(games_controller.POST("test"))
+        team = json.loads(teams_controller.POST("test"))
+
+        score = json.loads(scores_controller.POST(game_id=game["id"], team_id=team["id"], value="1"))
+
+        self.assertIsNotNone(score["id"])
+
+        obtained_score = json.loads(scores_controller.GET(score["id"]))
+
+        self.assertEqual(obtained_score[0]["id"], score["id"])
