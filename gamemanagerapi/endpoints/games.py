@@ -8,18 +8,18 @@ from gamemanagerapi.endpoints import games_storage, teams_storage, cy_tools
 class Teams(object):
 
     @cy_tools.uses_json
-    def POST(self, game_id, team_id, *args, **kwargs):
+    def POST(self, id, team_id, *args, **kwargs):
         matches_bll = matches.Business(games_storage)
         teams_bll = teams.Business(teams_storage)
 
         errors = []
-        if not matches_bll.find_match(game_id):
-            errors.append("Cannot find game %s" % (game_id,))
+        if not matches_bll.find_match(id):
+            errors.append("Cannot find game %s" % (id,))
         if not teams_bll.get_team(team_id):
-            errors.append("Cannot find team %s" % (game_id,))
+            errors.append("Cannot find team %s" % (id,))
 
         if not errors:
-            matches_bll.assign_team(game_id, team_id)
+            matches_bll.assign_team(id, team_id)
 
         return {"errors": errors}
 
