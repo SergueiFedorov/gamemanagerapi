@@ -8,10 +8,11 @@ from gamemanagerapi.endpoints import scores_stroage, cy_tools
 @cherrypy.expose
 class Root(object):
 
-    def format_scores(self, score: scores.Score) -> dict:
+    @staticmethod
+    def format_score(score: scores.Score) -> dict:
 
         if not scores:
-            return []
+            return {}
 
         return {
             "id": score.id,
@@ -32,14 +33,22 @@ class Root(object):
             )
         )
 
-        return self.format_scores(score=result)
+        return self.format_score(score=result)
 
     @cy_tools.uses_json
-    def GET(self, score_id, game_id=None, team_id=None, **kwargs):
+    def GET(self, score_id=None, game_id=None, team_id=None, **kwargs):
 
         scores_bll = scores.Business(scores_stroage)
-        result = scores_bll.get_store(
-            id = score_id
-        )
 
-        return [self.format_scores(score) for score in result]
+        result = None
+        if score_id:
+            result = scores_bll.get_store(
+                id = score_id
+            )
+        elif game_id and team_id:
+            result = scores_bll.get_scores_for_match(
+                game_id,
+                team_id
+            )
+
+        return [self.format_score(score) for score in result]

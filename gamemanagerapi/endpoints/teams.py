@@ -21,7 +21,8 @@ class Players(object):
         if not player_bll.get_player(player_id):
             errors.append("Cannot find player %s" % (player_id,))
 
-        result = teams_bll.assign_player(int(team_id), int(player_id))
+        if not errors:
+            teams_bll.assign_player(int(team_id), int(player_id))
 
         return {
             "errors": errors

@@ -10,7 +10,7 @@ from gamemanagerapi.endpoints import player_storage, teams_storage, cy_tools
 class Teams(object):
 
     @staticmethod
-    def format_team(team : teams.Team) -> dict:
+    def format_team(team: teams.Team) -> dict:
         return {
             "id": team.id,
             "name": team.name

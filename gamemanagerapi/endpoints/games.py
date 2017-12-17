@@ -3,6 +3,7 @@ import cherrypy
 from gamemanagerlib.business import matches, teams
 from gamemanagerapi.endpoints import games_storage, teams_storage, cy_tools
 
+
 @cherrypy.expose
 class Teams(object):
 
@@ -17,7 +18,8 @@ class Teams(object):
         if not teams_bll.get_team(team_id):
             errors.append("Cannot find team %s" % (game_id,))
 
-        result = matches_bll.assign_team(game_id, team_id)
+        if not errors:
+            matches_bll.assign_team(game_id, team_id)
 
         return {"errors": errors}
 

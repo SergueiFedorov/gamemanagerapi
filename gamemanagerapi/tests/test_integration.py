@@ -100,3 +100,7 @@ class Tests(unittest.TestCase):
         obtained_score = json.loads(scores_controller.GET(score["id"]))
 
         self.assertEqual(obtained_score[0]["id"], score["id"])
+
+        score_by_game_team = json.loads(scores_controller.GET(game_id=game["id"], team_id=team["id"]))
+
+        self.assertEqual(score_by_game_team[0]["id"], score["id"])
