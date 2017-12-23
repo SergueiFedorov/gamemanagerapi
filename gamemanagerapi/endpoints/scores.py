@@ -1,5 +1,4 @@
 import cherrypy
-from typing import List
 
 from gamemanagerlib.business import matches, teams, scores
 from gamemanagerapi.endpoints import scores_stroage, cy_tools
