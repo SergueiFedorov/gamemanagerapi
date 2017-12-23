@@ -47,7 +47,7 @@ class Root(object):
     def GET(self, id, **kwargs):
 
         bll = players.Business(player_storage)
-        player = bll.get_player(int(id))
+        player = bll.get_player(id)
 
         return self.format_player(player[0] if player else None)
 

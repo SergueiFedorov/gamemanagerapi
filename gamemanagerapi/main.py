@@ -3,6 +3,7 @@ import cherrypy
 import gamemanagerapi.endpoints.player
 import gamemanagerapi.endpoints.teams
 import gamemanagerapi.endpoints.games
+import gamemanagerapi.endpoints.scores
 
 if __name__ == "__main__":
     conf = {
@@ -16,6 +17,7 @@ if __name__ == "__main__":
     cherrypy.tree.mount(gamemanagerapi.endpoints.player.Root(), "/players", conf)
     cherrypy.tree.mount(gamemanagerapi.endpoints.teams.Root(), "/teams", conf)
     cherrypy.tree.mount(gamemanagerapi.endpoints.games.Root(), "/games", conf)
+    cherrypy.tree.mount(gamemanagerapi.endpoints.scores.Root(), "/scores", conf)
 
     cherrypy.engine.start()
     cherrypy.engine.block()

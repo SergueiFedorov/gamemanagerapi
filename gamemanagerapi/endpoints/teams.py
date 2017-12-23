@@ -22,7 +22,7 @@ class Players(object):
             errors.append("Cannot find player %s" % (player_id,))
 
         if not errors:
-            teams_bll.assign_player(int(id), int(player_id))
+            teams_bll.assign_player(id, player_id)
 
         return {
             "errors": errors
@@ -60,6 +60,6 @@ class Root(object):
     def GET(self, id):
 
         team_bll = teams.Business(storage=teams_storage)
-        result = team_bll.get_team(id=int(id))
+        result = team_bll.get_team(id=id)
 
         return self.format_team(result)
