@@ -1,5 +1,4 @@
 import cherrypy
-from typing import List
 
 from gamemanagerlib.business import matches, teams, scores
 from gamemanagerapi.endpoints import scores_stroage, cy_tools
@@ -22,7 +21,7 @@ class Root(object):
         }
 
     @cy_tools.uses_json
-    def POST(self, team_id, game_id, value):
+    def POST(self, team_id, game_id, value, **kwargs):
 
         scores_bll = scores.Business(scores_stroage)
         result = scores_bll.record_score(
@@ -33,7 +32,7 @@ class Root(object):
             )
         )
 
-        return self.format_score(score=result)
+        return [self.format_score(score=result)]
 
     @cy_tools.uses_json
     def GET(self, score_id=None, game_id=None, team_id=None, **kwargs):
