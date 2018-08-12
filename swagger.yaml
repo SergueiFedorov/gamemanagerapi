@@ -1,0 +1,294 @@
+openapi: "3.0.0"
+info:
+  title: gamemanagerapi
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+paths:
+  /games:
+    post:
+      description: |
+        Creates a new match
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateGame'
+      responses:
+        '200':
+          description: Game Response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Game'
+  /games/{game_id}:
+    parameters:
+    - name: game_id
+      in: path
+      description: tags to filter by
+      required: true
+      schema:
+        type: integer
+    get:
+      description: |
+        Returns iinformation about a specific match
+      responses:
+        '200':
+          description: Game Response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Game'
+  /games/{game_id}/teams:
+    parameters:
+    - name: game_id
+      in: path
+      description: tags to filter by
+      required: true
+      schema:
+        type: string
+    post:
+      description: |
+        Assigns a team to a match
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignTeamToGame'
+      responses:
+        '200':
+          description: Asign team reponse
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StandardResponse'
+  /player:
+    post:
+      description: |
+        Create a new player
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlayer'
+      responses:
+        '200':
+          description: Game Response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Player'
+  /player/{player_id}:
+    parameters:
+    - name: player_id
+      in: path
+      description: tags to filter by
+      required: true
+      schema:
+        type: string
+    get:
+      description: |
+        Get player information
+      responses:
+        '200':
+            description: Player Response
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Player'
+  /player/{player_id}/teams:
+    parameters:
+    - name: player_id
+      in: path
+      description: Tags to filter by
+      required: true
+      schema:
+        type: string
+    get:
+      description: |
+        Get player information
+      responses:
+        '200':
+            description: Player team Response
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Team'
+  /score:
+     post:
+      description: |
+        Create a new score for a game
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateScore'
+      responses:
+        '200':
+          description: Game Response
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Score'
+  /score/{score_id}:
+      parameters:
+      - name: score_id
+        in: path
+        description: Tags to filter by
+        required: true
+        schema:
+          type: string
+      get:
+        description: |
+          Get score by ID
+        responses:
+          '200':
+              description: Get score by ID
+              content:
+                application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Score'
+  /teams:
+      post:
+        description: |
+          Create team
+        requestBody:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateTeam'
+        responses:
+          '200':
+            description:  Created team
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Team'
+  /teams/{team_id}:
+    get:
+      parameters:
+        - name: team_id
+          in: path
+          description: Tags to filter by
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description:  Created team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Team'
+  /teams/{team_id}/players:
+    post:
+      parameters:
+        - name: team_id
+          in: path
+          description: Tags to filter by
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description:  Created team
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/StandardResponse'
+components:
+  schemas:
+    Team:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+        player_ids:
+          type: array
+          items:
+            type: string
+    CreateTeam:
+      type: object
+      properties:
+        name:
+          type: string
+    Score:
+      type: object
+      properties:
+        id:
+          type: string
+        team_id:
+          type: string
+        game_id:
+          type: string
+        value:
+          type: string
+    CreateScore:
+      type: object
+      properties:
+        team_id:
+          type: string
+        game_id:
+          type: string
+        value:
+          type: string
+    CreatePlayer:
+      type: object
+      properties:
+        name:
+          type: string
+    Player:
+      type: object
+      properties:
+        name:
+          type: string
+        id:
+          type: string
+    StandardResponse:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+    AssignTeamToGame:
+      type: object
+      properties:
+        team_id:
+          type: string
+    CreateGame:
+      type: object
+      properties:
+        name:
+          type: string
+    Game:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        team_ids:
+          type: array
+          items:
+            type: string
