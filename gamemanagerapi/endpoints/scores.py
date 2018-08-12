@@ -2,10 +2,11 @@ import cherrypy
 
 from gamemanagerlib.business import matches, teams, scores
 from gamemanagerapi.endpoints import scores_stroage, cy_tools
+from gamemanagerapi.endpoints.cy_tools import Base
 
 
 @cherrypy.expose
-class Root(object):
+class Root(Base):
 
     @staticmethod
     def format_score(score: scores.Score) -> dict:

@@ -5,6 +5,7 @@ import gamemanagerapi.endpoints.teams
 import gamemanagerapi.endpoints.games
 import gamemanagerapi.endpoints.scores
 
+
 if __name__ == "__main__":
     conf = {
         '/': {
@@ -14,10 +15,10 @@ if __name__ == "__main__":
         }
     }
 
-    cherrypy.tree.mount(gamemanagerapi.endpoints.player.Root(), "/players", conf)
-    cherrypy.tree.mount(gamemanagerapi.endpoints.teams.Root(), "/teams", conf)
-    cherrypy.tree.mount(gamemanagerapi.endpoints.games.Root(), "/games", conf)
-    cherrypy.tree.mount(gamemanagerapi.endpoints.scores.Root(), "/scores", conf)
+    player = cherrypy.tree.mount(gamemanagerapi.endpoints.player.Root(), "/player", conf)
+    teams = cherrypy.tree.mount(gamemanagerapi.endpoints.teams.Root(), "/team", conf)
+    games = cherrypy.tree.mount(gamemanagerapi.endpoints.games.Root(), "/game", conf)
+    scores = cherrypy.tree.mount(gamemanagerapi.endpoints.scores.Root(), "/score", conf)
 
     cherrypy.engine.start()
     cherrypy.engine.block()

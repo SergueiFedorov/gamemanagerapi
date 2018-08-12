@@ -4,10 +4,11 @@ from gamemanagerlib.business import players
 from gamemanagerlib.business import teams
 
 from gamemanagerapi.endpoints import player_storage, teams_storage, cy_tools
+from gamemanagerapi.endpoints.cy_tools import Base
 
 
 @cherrypy.expose
-class Teams(object):
+class Teams(Base):
 
     @staticmethod
     def format_team(team: teams.Team) -> dict:
@@ -27,7 +28,7 @@ class Teams(object):
 
 @cherrypy.expose
 @cherrypy.popargs('id')
-class Root(object):
+class Root(Base):
 
     def __init__(self):
         self.teams = Teams()

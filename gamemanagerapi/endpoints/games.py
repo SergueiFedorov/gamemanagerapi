@@ -2,10 +2,11 @@ import cherrypy
 
 from gamemanagerlib.business import matches, teams
 from gamemanagerapi.endpoints import games_storage, teams_storage, cy_tools
+from gamemanagerapi.endpoints.cy_tools import Base
 
 
 @cherrypy.expose
-class Teams(object):
+class Teams(Base):
 
     @cy_tools.uses_json
     def POST(self, id, team_id, *args, **kwargs):
@@ -26,7 +27,7 @@ class Teams(object):
 
 @cherrypy.expose
 @cherrypy.popargs('id')
-class Root(object):
+class Root(Base):
 
     def __init__(self):
         self.teams = Teams()
@@ -44,7 +45,7 @@ class Root(object):
         }
 
     @cy_tools.uses_json
-    def POST(self, name, *args, **kwargs):
+    def POST(self, name, *args, **kwargs) -> dict:
 
         bll = matches.Business(games_storage)
         result = bll.create_match(matches.Match(name=name))

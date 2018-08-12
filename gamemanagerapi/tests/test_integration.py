@@ -95,12 +95,12 @@ class Tests(unittest.TestCase):
 
         score = json.loads(scores_controller.POST(game_id=game["id"], team_id=team["id"], value="1"))
 
-        self.assertIsNotNone(score["id"])
+        self.assertIsNotNone(score[0]["id"])
 
-        obtained_score = json.loads(scores_controller.GET(score["id"]))
+        obtained_score = json.loads(scores_controller.GET(score[0]["id"]))
 
-        self.assertEqual(obtained_score[0]["id"], score["id"])
+        self.assertEqual(obtained_score[0]["id"], score[0]["id"])
 
         score_by_game_team = json.loads(scores_controller.GET(game_id=game["id"], team_id=team["id"]))
 
-        self.assertEqual(score_by_game_team[0]["id"], score["id"])
+        self.assertEqual(score_by_game_team[0]["id"], score[0]["id"])

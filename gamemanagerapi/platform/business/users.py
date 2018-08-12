@@ -13,7 +13,5 @@ class Business(object):
     def __init__(self, storage):
         self.storage = storage
 
-    def create_user(self, user : User) -> User:
+    def create_user(self, user: User) -> User:
         return self.storage.read(id=user.id)
-
-

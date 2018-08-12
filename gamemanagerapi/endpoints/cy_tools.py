@@ -3,6 +3,14 @@ import json
 import functools
 
 
+class Base(object):
+
+    def OPTIONS(self):
+        cherrypy.response.headers['Access-Control-Allow-Origin'] = "*"
+        cherrypy.response.headers['Access-Control-Allow-Methods'] = "POST, GET, PUT, DELETE"
+        cherrypy.response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+
+
 def uses_json(func):
 
     @functools.wraps(func)
